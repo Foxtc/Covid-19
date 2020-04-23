@@ -20,7 +20,7 @@ municipio_df = pd.read_csv('portugal_municipios.csv', sep=',',
 
 file_geo = gpd.read_file('portugal_municipios.geojson')
 
-file_geo_guimaraes = gpd.read_file('/ContinenteConcelhos.geojson')
+file_geo_guimaraes = gpd.read_file('ContinenteConcelhos.geojson')
 
 # %% Fill empty cells
 infetados['Felgueiras'][3] = 24
@@ -87,7 +87,7 @@ transpose_infetados = transpose_infetados.rename({'level_1': 'Local', 0: 'Infeta
 transpose_infetados['Local'] = transpose_infetados['Local'].str.rstrip()
 
 # %% Get only the the county name and fips
-# Remove the islands
+# Remove the island
 municipio_df = municipio_df[municipio_df['name_1'] != 'Azores']
 municipio_df = municipio_df[municipio_df['name_1'] != 'Madeira']
 
@@ -224,14 +224,14 @@ for day in days:
     plot = df_join.plot(column=day, cmap='Blues', linewidth=0.8, ax=ax, edgecolor='0.8',
                         norm=matplotlib.colors.LogNorm())
 
-    filepath = os.path.join('/Users/taniacarvalho/Desktop/Tek/Covid-19/', day + '.png')
+    filepath = os.path.join('', day + '.png')
     chart = plot.get_figure()
     chart.savefig(filepath)
 
 
 # %% Generate a gif
 frames = []
-imgs = glob.glob("/Users/taniacarvalho/Desktop/Tek/Covid-19/*.png")
+imgs = glob.glob("*.png")
 
 imgs = natsort.natsorted(imgs)
 
@@ -241,9 +241,9 @@ for i in imgs:
 
 images = list(map(lambda filename: imageio.imread(filename), imgs))
 
-imageio.mimsave(os.path.join('/Users/taniacarvalho/Desktop/Tek/Covid-19/mapa.gif'), images, fps=1)
+imageio.mimsave(os.path.join('mapa.gif'), images, fps=1)
 
-optimize("/Users/taniacarvalho/Desktop/Tek/Covid-19/mapa.gif")
+optimize("mapa.gif")
 
 # gifsicle -O3 old.gif -o new.gif
 
