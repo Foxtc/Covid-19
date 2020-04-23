@@ -11,16 +11,16 @@ from pygifsicle import optimize
 import imageio
 
 # %% Load data
-infetados = pd.read_excel('/Users/primeter/Desktop/Tek/Covid-19/InfetadosCovid.xlsx', parse_dates=['Data'],
+infetados = pd.read_excel('InfetadosCovid.xlsx', parse_dates=['Data'],
                           sep='\t', encoding='utf-8')
 
 # Load counties of Portugal and fips code
-municipio_df = pd.read_csv('/Users/primeter/Desktop/Tek/Covid-19/portugal_municipios.csv', sep=',',
+municipio_df = pd.read_csv('portugal_municipios.csv', sep=',',
                            encoding='utf-8')
 
-file_geo = gpd.read_file('/Users/primeter/Desktop/Tek/Covid-19/portugal_municipios.geojson')
+file_geo = gpd.read_file('portugal_municipios.geojson')
 
-file_geo_guimaraes = gpd.read_file('/Users/primeter/Desktop/Tek/Covid-19/ContinenteConcelhos.geojson')
+file_geo_guimaraes = gpd.read_file('/ContinenteConcelhos.geojson')
 
 # %% Fill empty cells
 infetados['Felgueiras'][3] = 24
@@ -224,14 +224,14 @@ for day in days:
     plot = df_join.plot(column=day, cmap='Blues', linewidth=0.8, ax=ax, edgecolor='0.8',
                         norm=matplotlib.colors.LogNorm())
 
-    filepath = os.path.join('/Users/primeter/Desktop/Tek/Covid-19/', day + '.png')
+    filepath = os.path.join('/Users/taniacarvalho/Desktop/Tek/Covid-19/', day + '.png')
     chart = plot.get_figure()
     chart.savefig(filepath)
 
 
 # %% Generate a gif
 frames = []
-imgs = glob.glob("/Users/primeter/Desktop/Tek/Covid-19/*.png")
+imgs = glob.glob("/Users/taniacarvalho/Desktop/Tek/Covid-19/*.png")
 
 imgs = natsort.natsorted(imgs)
 
@@ -241,9 +241,9 @@ for i in imgs:
 
 images = list(map(lambda filename: imageio.imread(filename), imgs))
 
-imageio.mimsave(os.path.join('/Users/primeter/Desktop/Tek/Covid-19/mapa.gif'), images, fps=1)
+imageio.mimsave(os.path.join('/Users/taniacarvalho/Desktop/Tek/Covid-19/mapa.gif'), images, fps=1)
 
-optimize("/Users/primeter/Desktop/Tek/Covid-19/mapa.gif")
+optimize("/Users/taniacarvalho/Desktop/Tek/Covid-19/mapa.gif")
 
 # gifsicle -O3 old.gif -o new.gif
 
